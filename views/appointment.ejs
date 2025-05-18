@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('layouts/header') -%>
+
+  <body>
+  <!-- <body id="page-top"> -->
+    <!-- Navigation-->
+    <%- include('layouts/navbar') -%>
+      <!-- Masthead-->
+      <header class="masthead">
+        <div class="container px-4 px-lg-5 h-100">
+          <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
+            <div class="col-lg-8 align-self-end">
+              <h1 class="text-white font-weight-bold">Appointment's Slots</h1>
+              <hr class="divider" />
+            </div>
+
+            <div class="g2test_form1 examination">
+              <form action="/appointment/getslots" class="alignment" method="GET">
+                <div>
+                  <label class="label_name">Select a date</label>
+                  <input class="inputfield" type="date" name="date" value="<%= selectedDate %>">
+                </div>
+                <div><button class="btn btn-primary" type="submit" style="margin-left: 10px;">Get slots</button></div>
+              </form>
+  
+              <form action="/appointment/register" class="centre" method="POST">
+  
+                <input type="hidden" name="date" value="<%= selectedDate %>">
+                <div class="centre appointment_slots" style="margin-bottom: 10px;" class="col-lg-8 align-self-baseline">
+                  <div>
+                    <input type="checkbox" name="slot0900" value="09:00" <%= slot09 ? 'checked=true disabled=true' : '' %>> <label> 09:00 am - 10:00 am</label>
+                  </div>
+                  <div>
+                    <input type="checkbox" name="slot1000" value="10:00" <%= slot10 ? 'checked=true disabled=true' : '' %>> <label> 10:00 am - 11:00 am</label>
+                  </div>
+                  <div>
+                    <input type="checkbox" name="slot1100" value="11:00" <%= slot11 ? 'checked=true disabled=true' : '' %>> <label> 11:00 am - 12:00 pm</label>
+                  </div>
+                  <div>
+                    <input type="checkbox" name="slot1200" value="12:00" <%= slot12 ? 'checked=true disabled=true' : '' %>> <label> 12:00 pm - 1:00 pm</label>
+                  </div>
+                  <div>
+                    <input type="checkbox" name="slot0100" value="01:00" <%= slot01 ? 'checked=true disabled=true' : '' %>> <label> 01:00 pm - 2:00 pm</label>
+                  </div>
+                </div>
+  
+                <div><button class="btn btn-primary" id="submitButton" type="submit">Register slots</button></div>
+                
+              </form>
+              <div>
+                <h3>User data with Evaluation Status</h3>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Firstname</th>
+                      <th>LastName</th>
+                      <th>Username</th>
+                      <th>Appointment</th>
+                      <th>Test Type</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% userList && userList.forEach(user => { %>
+                    <tr>
+                      <td><%= user.firstname %></td>
+                      <td><%= user.lastname %></td>
+                      <td><%= user.username%></td>
+                      <td><%= user.appointmentID ?  "Booked" : "Not Yet" %></td>
+                      <td><%= user.TestType ? user.TestType: "-" %></td>
+                      <td><%= user.Pass == true ? "Pass" : user.Pass == false ? "Fail" : "Pending" %></td>
+                    </tr>
+                    <% }) %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </header>
+
+      <%- include('layouts/footer') -%>
+      <%- include('layouts/scripts') -%>
+
+  </body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('layouts/header') -%>
+
+  <body id="page-top">
+    <!-- Navigation-->
+    <%- include('layouts/navbar') -%>
+      <!-- Masthead-->
+      <header class="examinationImg">
+        <div class="container px-4 px-lg-5 h-100">
+          <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
+            <div class="col-lg-8 align-self-end">
+              <h1 class="text-white font-weight-bold">Examination</h1>
+              <hr class="divider" />
+            </div>
+
+            <div class="g2test_form1 examination">
+              <form action="/examination/getappointments" class="alignment" method="GET">
+                <div>
+                  <label class="label_name">Select a date</label>
+                  <input class="inputfield" type="date" name="date" value="<%= selectedDate %>">
+                </div>
+                <div>
+                  <label class="label_name">Test Type</label>
+                  <select class="inputfield" name="testType" type="text">
+                    <option value=""  <%= selectedTestType == ''   ? 'selected' : '' %>>All</option>
+                    <option value="G2"<%= selectedTestType == 'G2' ? 'selected' : '' %>>G2</option>
+                    <option value="G" <%= selectedTestType == 'G'  ? 'selected' : '' %>>G</option>
+                  </select>
+                </div>
+                <div><button class="btn btn-primary" type="submit" style="margin-left: 10px;">Get appointments</button></div>
+              </form>
+  
+              <form action="/examination/results" class="centre" method="GET">
+  
+                <input type="hidden" name="date" value="<%= selectedDate %>">
+                <% if(isAnySlotTrue) { %>
+                <div>
+                  <% if(slot09) { %>
+                    <input type="radio" name="slots" value="09:00" <%= slot09 ? '' : 'style=display:none' %>> <label> <%= slot09 ? ' 9:00 am - 10:00 am' : '' %> </label><br>
+                    <% } %>
+                    <% if(slot10) { %>
+                    <input type="radio" name="slots" value="10:00" <%= slot10 ? '' : 'style=display:none' %>> <label> <%= slot10 ? '10:00 am - 11:00 am' : '' %> </label><br>
+                    <% } %>
+                    <% if(slot11) { %>
+                    <input type="radio" name="slots" value="11:00" <%= slot11 ? '' : 'style=display:none' %>> <label> <%= slot11 ? '11:00 am - 12:00 pm' : '' %> </label><br>
+                    <% } %>
+                    <% if(slot12) { %>
+                    <input type="radio" name="slots" value="12:00" <%= slot12 ? '' : 'style=display:none' %>> <label> <%= slot12 ? '12:00 pm - 1:00 pm ' : '' %> </label><br>
+                    <% } %>
+                    <% if(slot01) { %>
+                    <input type="radio" name="slots" value="01:00" <%= slot01 ? '' : 'style=display:none' %>> <label> <%= slot01 ? ' 1:00 pm - 2:00 pm ' : '' %> </label><br>
+                    <% } %>
+                </div>
+  
+                <div class="m-3"><button class="btn btn-primary" id="submitButton" type="submit">Evaluate</button></div>
+                <% } else { %>
+                  <h3>No Pending Evaluations on this date</h3>
+                <% } %>
+              </form>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <%- include('layouts/footer') -%>
+      <%- include('layouts/scripts') -%>
+
+  </body>
+</html>

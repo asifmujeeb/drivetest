@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('layouts/header') -%>
+
+  <body id="page-top">
+    <!-- Navigation-->
+    <%- include('layouts/navbar') -%>
+
+      <section class="page-section gtestImg" id="services">
+        <div class="container results-container px-4 px-lg-5">
+          <div class="subContainer-resultsPage">
+            <button>Back to all data</button>
+            <hr class="divider" />
+            <h2 class="text-center mt-0">Results page</h2>
+          </div>
+          <div class="subContainer-resultsPage1 px-lg-5">
+            <h3>Personal Details</h3>
+            <p>Firstname:<%- userdetails.firstname %></p>
+            <p>Lastname:<%- userdetails.lastname %></p>
+            <p>Age:<%- userdetails.Age %></p>
+            <h3>Car Information</h3>
+            <p>Make: <%- userdetails.car_details.make %></p>
+            <p>Model: <%- userdetails.car_details.model %></p>
+            <p>Year: <%- userdetails.car_details.year %></p>
+            <div>
+              <form class="subContainer-resultsPage2" method="get" action="/save/results">
+                <h3>Evaluation</h3>
+                <input type="hidden" name="username" value="<%- userdetails.username%>">
+                <div class="comment">
+                  <label for="comment">Comment: </label>
+                  <textarea class="comment-textArea" name="comment"></textarea>
+                </div>
+                <div class="comment padding-space">
+                  <div>
+                    <label>Results: </label>
+                  </div>
+                <div class="comment">
+                  <input type="radio" id="pass" name="pass" value="pass">
+                  <label for="pass">Pass</label><br>
+
+                  <input type="radio" id="pass" name="pass" value="fail">
+                  <label for="pass">Fail</label><br>
+                </div>
+                </div>
+                <button type="submit">Save Result</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer-->
+      <%- include('layouts/footer') -%>
+        <!-- scripts -->
+        <%- include('layouts/scripts') -%>
+  </body>
+
+</html>

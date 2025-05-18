@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('layouts/header') -%>
+
+  <body id="page-top">
+    <!-- Navigation-->
+    <%- include('layouts/navbar') -%>
+      <!-- Contact-->
+      <section class="page-section registerImg" id="contact">
+        <div class="container px-4 px-lg-5">
+          <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-lg-8 col-xl-6 text-center">
+              <h2 class="mt-0 fontStyle">Sign Up</h2>
+              <hr class="divider" />
+            </div>
+          </div>
+
+          <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
+            <div class="col-lg-6">
+              <!-- enctype="multipart/form-data" -->
+              <form class="space_bottom_register" action="/users/register" method="POST" id="contactForm">
+                <% if(errors != null && errors.length > 0){ %>
+                  <ul class="list-group"></ul>
+                    <% for (var i = 0; i < errors.length; i++) { %>
+                      <li class="list-group-item list-group-item-danger"><%= errors[i] %></li>
+                    <% } %>
+                  </ul>
+                <% } %>
+                <% if(message) { %>
+                  <div class="errorSection">
+                      <span id="errorMessage"><%- message %></span>
+                  </div>
+                <% } %>
+                <!-- Username input-->
+                <div class="form-floating mb-3">
+                  <input class="form-control" id="username" name="username" type="text" required placeholder=""/>
+                  <label class="allLabels" for="username">User Name</label>
+                </div>
+
+                <!-- Password input-->
+                <div class="form-floating mb-3">
+                  <input class="form-control" id="password" name="password" type="password" required placeholder=""/>
+                  <label class="allLabels" for="password">Password</label>
+                </div>
+
+                <!-- Password confirmation input-->
+                <div class="form-floating mb-3">
+                  <input class="form-control" id="passwordConf" name="passwordConf" type="password" required placeholder=""/>
+                  <label class="allLabels" for="passwordConf">Confirm Password</label>
+                  <div class="invalid-feedback" data-sb-feedback="password:required">A password is required.
+                  </div>
+                </div>
+
+                <!-- User Type selector-->
+                <div class="form-floating mb-3">
+                  <select class="form-control" id="userType" name="userType" type="text">
+                    <option value="Driver">Driver</option>
+                    <option value="Examiner">Examiner</option>
+                    <option value="Admin">Admin</option>
+                  </select>
+                  <label for="userType">User Type</label>
+                </div>
+
+                <!-- Submit Button-->
+                <div class="d-grid">
+                  <button class="btn btn-primary btn-xl btn-size" id="submitButton" type="submit">Register</button>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer-->
+      <%- include('layouts/footer') -%>
+
+        <!-- scripts -->
+        <%- include('layouts/scripts') -%>
+  </body>
+
+</html>

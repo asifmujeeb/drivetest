@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('layouts/header') -%>
+
+<body id="page-top">
+  <!-- Navigation-->
+  <%- include('layouts/navbar') -%>
+
+  <!-- Services-->
+   <div class="g2testImg">
+    <h2 style="color: #fff; text-align: center;"> WELCOME TO G2 TEST</h2>
+   </div>
+  <section class="page-section" id="services">
+    <div class="container px-4 px-lg-5">
+      <h2 class="text-center mt-0">Please Enter Your Details.</h2>
+      <hr class="divider" />
+
+      <div class="main_g2test_flex">
+        <form action='/g2_test' method="POST" class="g2test_form" enctype="application/x-www-form-urlencoded">
+          <fieldset>
+            <legend>Personal Info</legend> <br>
+            
+            <label for="firstName">First Name</label>
+            <input type="text" name="firstName" value="<%= output.firstname %>" <%- !licenseIsDefault ? "disabled" : '' %>> <br>
+            
+            <label for="lastName">Last Name</label>
+            <input type="text" name="lastName" value="<%= output.lastname %>" <%- !licenseIsDefault ? "disabled" : '' %>> <br>
+            
+            <label for="licenseNumber">License Number</label>
+            <input style="margin-bottom: 12px;" type="text" name="licenseNumber" minlength="8" maxlength="8" value="<%=  output.LicenseNo %>" <%- !licenseIsDefault ? "disabled" : '' %>>
+            
+            <label for="age">Age</label>
+            <input type="number" name="age" value="<%= output.Age %>" <%- !licenseIsDefault ? "disabled" : '' %>> <br><br>
+          </fieldset>
+        <!-- </form> -->  
+
+        <!-- <form action='/g2_test' method="POST" class="g2test_form" enctype="application/x-www-form-urlencoded"> -->
+          <fieldset>
+            <legend>Car Info</legend><br>
+            
+            <label for="make">Make</label>
+            <input type="text" name="make" value="<%= output.car_details.make %>" <%- !licenseIsDefault ? "disabled" : '' %>> <br>
+            
+            <label for="model">Model</label>
+            <input type="text" name="model" value="<%= output.car_details.model %>" <%- !licenseIsDefault ? "disabled" : '' %>> <br>
+            
+            <label for="year">Year</label>
+            <input type="number" name="year" value="<%= output.car_details.year %>" <%- !licenseIsDefault ? "disabled" : '' %>> <br>
+            
+            <label for="platNumber">Plate Number</label>
+            <input type="text" name="platNumber" value="<%= output.car_details.platno %>" <%- !licenseIsDefault ? "disabled" : '' %>> <br>
+            
+            <% if (licenseIsDefault) { %>
+              <button class="g2_testButton narrow-btn" type="submit">Save</button>
+            <% } %>
+          </fieldset>
+        </form>            
+      </div>
+      <h2 class="text-center mt-3">Book you Appointment.</h2>
+      <hr class="divider" />
+      <div class="g2test_form1">
+        <% if (!licenseIsDefault && !output.appointmentID) { %>
+        <form action="/g2_test/getslots" class="alignment" method="GET">
+          <div>
+            <label class="label_name">Select a date</label>
+            <input class="inputfield space" type="date" name="date" value="<%= selectedDate %>">
+          </div>
+          <div><button class="btn btn-primary" type="submit" style="margin-left: 10px;">Check available slots</button></div>
+        </form>
+        <form action="/g2_test/booking" class="centre" method="POST">
+          <input type="hidden" name="date" value="<%= selectedDate %>">
+          <input type="hidden" name="TestType" value="G2">
+          <div class="col-lg-12 align-self-baseline">
+            <% if(isAnySlotTrue) {%>
+            <div>
+              <% if(slot09) { %>
+                <input type="radio" name="slots" value="09:00" <%= slot09 ? '' : 'style=display:none' %>> <label> <%= slot09 ? ' 9:00 am - 10:00 am' : '' %> </label><br>
+                <% } %>
+                <% if(slot10) { %>
+                <input type="radio" name="slots" value="10:00" <%= slot10 ? '' : 'style=display:none' %>> <label> <%= slot10 ? '10:00 am - 11:00 am' : '' %> </label><br>
+                <% } %>
+                <% if(slot11) { %>
+                <input type="radio" name="slots" value="11:00" <%= slot11 ? '' : 'style=display:none' %>> <label> <%= slot11 ? '11:00 am - 12:00 pm' : '' %> </label><br>
+                <% } %>
+                <% if(slot12) { %>
+                <input type="radio" name="slots" value="12:00" <%= slot12 ? '' : 'style=display:none' %>> <label> <%= slot12 ? '12:00 pm - 1:00 pm ' : '' %> </label><br>
+                <% } %>
+                <% if(slot01) { %>
+                <input type="radio" name="slots" value="01:00" <%= slot01 ? '' : 'style=display:none' %>> <label> <%= slot01 ? ' 1:00 pm - 2:00 pm ' : '' %> </label><br>
+                <% } %>
+            </div>
+              <div class="m-3"><button class="btn btn-primary" id="submitButton" type="submit">Book appointment</button></div>
+            <% } else { %>
+              <h3>No slots available for selected date </h3>
+            <% } %>
+
+        </form>
+        <% } else if (output.appointmentID) { %>
+          <% if (output.TestType == 'G2') { %>
+            <% if (output.Pass) { %>
+              <h3>Congratulations, you have passed the G2 Test!</h3>
+              <h4>Comment from Examiner : <%= output.Comment%></h4>
+              <p>You can now take the G test.</p>
+              <a class="gtest-booking btn btn-primary" href="/g_test">Book G Test</a>
+            <% } else if (output.Pass == false) { %>
+              <h3>Oops! You did not pass the G2 test.</h3>
+            <% } else { %>
+              <h3>Appointment booked successfully for the G2 Test</h3>
+            <% } %>
+            <% }else if(output.TestType == 'G' && output.Pass == null) { %>
+              <h3 style="font-size: 22px;">Completed G2 Test. <br><br> G test in progress </h3>
+            <% }else if(output.TestType == 'G' && output.Pass == true) { %>
+                <h3 style="font-size: 22px;">Completed G2 and G test </h3>
+            <% }else if(output.TestType == 'G' && output.Pass == false) { %>
+                <h3 style="font-size: 22px;">Completed G2 test.<br><br> G test in progress  </h3>
+            <% } %>
+        <% } %>
+      </div>
+
+    </div>
+  </section>
+  <!-- Footer-->
+  <%- include('layouts/footer') -%>
+  <!-- scripts -->
+  <%- include('layouts/scripts') -%>
+</body>
+
+</html>
